@@ -3,21 +3,21 @@
 # Working directory
 # . or absolute path, please note that the directories following must be under root
 root = "."
-tmp_dir = "tmp_app"
+tmp_dir = "tmp"
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go build -o ./tmp_app/app/engine ./app/."
+cmd = "go build -o ./tmp/positron ./cmd/positron/."
 # Binary file yields from `cmd`.
-bin = "tmp_app/app"
+bin = "tmp/positron"
 # Customize binary.
-full_bin = "./tmp_app/app/engine"
+full_bin = "./tmp/positron"
 # This log file places in your tmp_dir.
 log = "air_errors.log"
 # Watch these filename extensions.
 include_ext = ["go", "yaml", "toml"]
 # Ignore these filename extensions or directories.
-exclude_dir = ["tmp_app", "tmp"]
+exclude_dir = ["tmp", "tmp"]
 # It's not necessary to trigger build each time file changes if it's too frequent.
 delay = 1000 # ms
 
