@@ -8,6 +8,7 @@ Positron (a.k.a antielectron) is an experimental web application backend written
 - MQTT support
 - Websocket support
 - Graphical dashboard to display sensor data from IoT devices
+- Redis\Valkey for caching
   
 ## Tasks
 ### Done
