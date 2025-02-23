@@ -2,16 +2,16 @@
 
 # Working directory
 # . or absolute path, please note that the directories following must be under root
-root = "."
+root = "./cmd"
 tmp_dir = "tmp"
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go build -o ./tmp/positron ./cmd/positron/."
+cmd = "go build -o ./cmd/tmp/positron ./cmd/positron/."
 # Binary file yields from `cmd`.
 bin = "tmp/positron"
 # Customize binary.
-full_bin = "./tmp/positron"
+full_bin = "./cmd/tmp/positron"
 # This log file places in your tmp_dir.
 log = "air_errors.log"
 # Watch these filename extensions.
