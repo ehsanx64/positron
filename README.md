@@ -14,7 +14,3 @@ Positron (a.k.a antielectron) is an experimental web application backend written
 - Caching
     - Redis\valkey
   
-## Tasks
-### Done
-### TODO
-- [ ] Add basic pages (Home, About etc.)
