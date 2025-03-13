@@ -9,6 +9,7 @@ import (
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	userHttpHandler "github.com/ehsanx64/positron/internal/infra/delivery/http"
+	ui "github.com/ehsanx64/positron/ui"
 	"github.com/spf13/viper"
 )
 
@@ -66,10 +67,13 @@ func main() {
 	}
 
 	userHttpHandler.NewUserHTTPHandler(mux)
+	mux.Handle("/assets/", http.FileServer(http.FS(ui.Assets)))
+	mux.Handle("/", http.FileServer(http.FS(ui.Main)))
 	log.Println("Starting positron on " + viper.Get("app.port").(string))
 	if err := http.ListenAndServe(viper.Get("app.port").(string), mux); err != nil {
 		log.Fatal(err)
 	}
+
 	// subscribe to subTopic("/a1Zd7n5***/deng/user/get") and request messages to be delivered
 	token := client.Subscribe(clientID+"/#", 1, rootHandler)
 	if token.Wait() && token.Error() != nil {

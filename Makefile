@@ -1,7 +1,7 @@
 NAME := positron
 CMD_POSITRON := cmd/positron
 PACKAGE := github.com/ehsanx64/$(NAME)
-TMP := ./tmp
+TMP := ./cmd/tmp
 
 run:
 	go run $(PACKAGE)/$(CMD_POSITRON)
