@@ -1,6 +1,0 @@
-{
-    "app": {
-        "name": "positron",
-        "port": ":1323"
-    }
-}

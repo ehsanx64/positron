@@ -9,8 +9,7 @@ import (
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	userHttpHandler "github.com/ehsanx64/positron/internal/infra/delivery/http"
-	ui "github.com/ehsanx64/positron/ui"
-	"github.com/spf13/viper"
+	"github.com/ehsanx64/positron/ui"
 )
 
 var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
@@ -27,20 +26,6 @@ var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err
 
 func main() {
 	mux := http.NewServeMux()
-
-	viper.SetConfigType("json")
-	viper.AddConfigPath("./config")
-
-	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			log.Fatal("failed to load the config file")
-			// Config file not found; ignore error if desired
-		} else {
-			// Config file was found but another error was produced
-		}
-	}
-
-	// Config file found and successfully parsed
 
 	var broker = "elnaz"
 	var port = 1883
@@ -69,8 +54,8 @@ func main() {
 	userHttpHandler.NewUserHTTPHandler(mux)
 	mux.Handle("/assets/", http.FileServer(http.FS(ui.Assets)))
 	mux.Handle("/", http.FileServer(http.FS(ui.Main)))
-	log.Println("Starting positron on " + viper.Get("app.port").(string))
-	if err := http.ListenAndServe(viper.Get("app.port").(string), mux); err != nil {
+	log.Println("Starting positron on :1323")
+	if err := http.ListenAndServe(":1323", mux); err != nil {
 		log.Fatal(err)
 	}
 
