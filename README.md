@@ -3,15 +3,18 @@
 Positron (a.k.a antielectron) is an experimental web application backend written in Go.
   
 ## Features
-- Uses echo as web application framework
-- Uses sqlcx\sqlite for data storage and operations
-- MQTT support
-- Websocket support
-- Graphical dashboard to display sensor data from IoT devices
-- Redis\Valkey for caching
+- Delivery
+    - net/http
+    - gRPC
+- Repository
+    - sqlx/sqlite
+- Messaging
+    - MQTT
+    - Websocket
+- Caching
+    - Redis\valkey
   
 ## Tasks
 ### Done
 ### TODO
 - [ ] Add basic pages (Home, About etc.)
-- [ ] gRPC

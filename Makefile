@@ -18,10 +18,7 @@ tidy:
 
 deps:
 	GOPROXY=https://goproxy.io,direct
-	go get github.com/labstack/echo/v4
 	go get github.com/spf13/viper
-	go get -u gorm.io/gorm
-	go get -u gorm.io/driver/sqlite
 	go get github.com/eclipse/paho.mqtt.golang
 	go get github.com/k0kubun/pp/v3
 	

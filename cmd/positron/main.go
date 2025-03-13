@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	userHttpHandler "github.com/ehsanx64/positron/internal/domain/user/delivery/http"
-	"github.com/labstack/echo/v4"
+	userHttpHandler "github.com/ehsanx64/positron/internal/infra/delivery/http"
 	"github.com/spf13/viper"
 )
 
@@ -25,10 +25,10 @@ var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err
 }
 
 func main() {
-	e := echo.New()
+	mux := http.NewServeMux()
 
 	viper.SetConfigType("json")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath("./config")
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
@@ -55,7 +55,7 @@ func main() {
 	opts.OnConnectionLost = connectLostHandler
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		panic(token.Error())
+		log.Printf("Failed to connect to mqtt broker: %+x", token.Error())
 	}
 
 	rootHandler := func(c mqtt.Client, msg mqtt.Message) {
@@ -65,6 +65,11 @@ func main() {
 	nodemcuHandler := func(c mqtt.Client, msg mqtt.Message) {
 	}
 
+	userHttpHandler.NewUserHTTPHandler(mux)
+	log.Println("Starting positron on " + viper.Get("app.port").(string))
+	if err := http.ListenAndServe(viper.Get("app.port").(string), mux); err != nil {
+		log.Fatal(err)
+	}
 	// subscribe to subTopic("/a1Zd7n5***/deng/user/get") and request messages to be delivered
 	token := client.Subscribe(clientID+"/#", 1, rootHandler)
 	if token.Wait() && token.Error() != nil {
@@ -82,7 +87,4 @@ func main() {
 	for t := range timer.C {
 		client.Publish(clientID+"/currentTime", 0, false, t.String())
 	}
-
-	userHttpHandler.NewUserHTTPHandler(e)
-	e.Logger.Fatal(e.Start(viper.Get("app.port").(string)))
 }
